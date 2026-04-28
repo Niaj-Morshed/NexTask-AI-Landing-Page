@@ -1,0 +1,1180 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NexTask | AI-Powered Project Management</title>
+
+
+
+    <meta name="title" content="NexTask.ai — Work Smarter with AI Intelligence">
+    <meta name="description" content="Automate your project workflows, predict deadlines, and manage your team with powerful AI-driven analytics. The ultimate SaaS tool for modern teams.">
+    <meta name="keywords" content="AI Project Management, SaaS, Productivity Tool, NexTask, Team Collaboration">
+    <meta name="author" content="Niaj Morshed">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://nextask.ai/">
+    <meta property="og:title" content="NexTask.ai — Work Smarter with AI Intelligence">
+    <meta property="og:description" content="NexTask automates workflows and predicts bottlenecks with AI. Join 10,000+ teams today.">
+    <meta property="og:image" content="https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=1200">
+
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://nextask.ai/">
+    <meta property="twitter:title" content="NexTask.ai — Work Smarter with AI Intelligence">
+    <meta property="twitter:description" content="The future of project management is here. Automate everything with NexTask.">
+    <meta property="twitter:image" content="https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=1200">
+
+
+    <link rel="icon" type="image/png" href="https://img.icons8.com/fluency/48/artificial-intelligence.png">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #6366f1;
+            --bg: #f8fafc;
+            /* Pure white bad diye halka bluish-white */
+            --text: #0f172a;
+            --card: #ffffff;
+            /* Card gulo pure white thakbe jate background theke alada lage */
+        }
+
+        [data-theme="dark"] {
+            --bg: #0f172a;
+            --text: #f8fafc;
+            --card: #1e293b;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            transition: 0.3s;
+        }
+
+        /* Skeleton Loading */
+        .skeleton {
+            background: linear-gradient(90deg, var(--card) 25%, #e2e8f0 50%, var(--card) 75%);
+            background-size: 200% 100%;
+            animation: loading 1.5s infinite;
+        }
+
+        @keyframes loading {
+            0% {
+                background-position: 200% 0;
+            }
+
+            100% {
+                background-position: -200% 0;
+            }
+        }
+
+        /* Marquee Animation */
+        .marquee {
+            display: flex;
+            overflow: hidden;
+            user-select: none;
+            gap: 2rem;
+        }
+
+        .marquee-content {
+            flex-shrink: 0;
+            display: flex;
+            justify-content: space-around;
+            min-width: 100%;
+            gap: 2rem;
+            animation: scroll 20s linear infinite;
+        }
+        
+
+        @keyframes scroll {
+            from {
+                transform: translateX(0);
+            }
+
+            to {
+                transform: translateX(-100%);
+            }
+        }
+
+        /* Bento Grid Custom Glassmorphism */
+        .bento-card {
+            background: var(--card);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            /* Light mode-e choto ekta border */
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02), 0 2px 4px -1px rgba(0, 0, 0, 0.01);
+        }
+
+        [data-theme="dark"] .bento-card {
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: none;
+        }
+
+
+        /*
+        .bento-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.02);
+        }
+        */
+
+
+
+
+        /* Micro Interaction: Button click ripple/ Card hover glow */
+        /* Card Glow Effect */
+        .bento-card {
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .bento-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(79, 70, 229, 0.15);
+        }
+
+        /* Hover korle card-er charpashe ekta subtle light ghurbe */
+        .bento-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at var(--x, 50%) var(--y, 50%), rgba(99, 102, 241, 0.15) 0%, transparent 50%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+        }
+
+        .bento-card:hover::before {
+            opacity: 1;
+        }
+
+        /* Button Ripple Effect */
+        .ripple {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.4);
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            border-radius: 50%;
+            animation: ripple-animation 0.6s linear;
+        }
+
+        @keyframes ripple-animation {
+            from {
+                width: 0;
+                height: 0;
+                opacity: 1;
+            }
+
+            to {
+                width: 500px;
+                height: 500px;
+                opacity: 0;
+            }
+        }
+
+        /* Global button scale effect */
+        button:active {
+            transform: scale(0.95);
+        }
+
+
+
+        /* Dark Mode Toggle Switch */
+        .toggle-dot {
+            transition: all 0.3s ease;
+        }
+
+        input:checked~.toggle-dot {
+            transform: translateX(100%);
+            background-color: #6366f1;
+        }
+
+        /* Custom Tabs */
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+
+        /* --- Navbar --- */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            transition: all 0.4s ease;
+            /* Scroll korle jeno smooth hoy */
+            padding: 20px 6%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* Scroll korle ei style-ta active hobe */
+        nav.scrolled {
+            padding: 12px 6%;
+            background: rgb(236, 236, 248);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            box-shadow: 0 4px 20px rgb(236, 236, 248);
+            border-bottom: 1px solid rgb(236, 236, 248);
+
+
+            /*padding: 12px 6%;
+            background: rgb(236, 236, 248);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);*/
+        }
+
+
+
+
+
+        /* Dark mode scroll logic */
+        [data-theme="dark"] nav.scrolled {
+            background: rgba(15, 23, 42, 0.7);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+
+
+
+
+        /*Mobile Menu Drawer*/
+        /* Mobile Link Style */
+        /* Drawer-er solid design */
+        #sideDrawer {
+            position: fixed !important;
+            /* Screen-er shathe fixed thakbe */
+            top: 0 !important;
+            right: 0 !important;
+            height: 100vh !important;
+            /* Puro screen jure height */
+            width: 280px !important;
+            background-color: var(--bg) !important;
+            /* Theme onujayi solid background */
+            z-index: 9999 !important;
+            /* Shobar shobar upore thakbe */
+            transition: transform 0.3s ease-in-out;
+            transform: translateX(100%);
+            box-shadow: -10px 0 50px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Overlay keo shobar upore rakhte hobe drawer-er thik niche */
+        #overlay {
+            position: fixed !important;
+            inset: 0 !important;
+            background: rgba(0, 0, 0, 0.5) !important;
+            z-index: 9998 !important;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+        }
+
+        #overlay.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .mobile-link {
+            color: var(--text);
+            transition: 0.3s;
+        }
+
+        /* Drawer open thakle class */
+        #sideDrawer.open {
+            transform: translateX(0);
+        }
+
+
+
+
+
+        /* Modal Active State */
+        #videoModal.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        #videoModal.active #modalContainer {
+            transform: scale(1);
+        }
+
+
+
+
+
+
+        /* Watch Demo Button Custom Hover */
+        .watch-demo-btn {
+            background: transparent;
+            color: var(--text);
+        }
+
+        /* Light Mode Hover */
+        [data-theme="light"] .watch-demo-btn:hover {
+            background-color: #f3f4f6 !important;
+            /* Gray-100 */
+            border-color: #6366f1 !important;
+            /* Indigo-600 */
+            color: #111827 !important;
+        }
+
+        /* Dark Mode Hover (Ebar ar sada hobe na) */
+        [data-theme="dark"] .watch-demo-btn:hover {
+            background-color: rgba(99, 102, 241, 0.2) !important;
+            /* Indigo with 20% opacity */
+            border-color: #818cf8 !important;
+            /* Indigo-400 */
+            color: #ffffff !important;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="loader" class="fixed inset-0 z-[9999] bg-white flex items-center justify-center">
+        <div class="w-12 h-12 border-4 border-indigo-600 border-t-transparent rounded-full animate-spin"></div>
+    </div>
+
+
+
+
+    <nav id="mainNavbar">
+        <div class="text-2xl font-extrabold text-indigo-600">NexTask.ai</div>
+
+        <div class="hidden md:flex gap-8 font-medium">
+            <a href="#features" class="hover:text-indigo-600">Features</a>
+            <a href="#pricing" class="hover:text-indigo-600">Pricing</a>
+            <a href="#reviews" class="hover:text-indigo-600">Reviews</a>
+        </div>
+
+        <div class="flex items-center gap-4">
+            <label class="flex items-center cursor-pointer">
+                <div class="relative">
+                    <input type="checkbox" id="darkToggle" class="sr-only">
+                    <div class="block bg-gray-300 dark:bg-gray-600 w-10 h-6 rounded-full"></div>
+                    <div class="toggle-dot absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition"></div>
+                </div>
+            </label>
+
+            <button class="hidden sm:block bg-indigo-600 text-white px-5 py-2 rounded-full font-semibold hover:bg-indigo-700 transition">Get Started</button>
+
+            <button id="menuBtn" class="md:hidden text-2xl text-indigo-600 focus:outline-none">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+
+        <div id="sideDrawer" class="md:hidden">
+            <div class="p-6 flex flex-col h-full overflow-y-auto">
+                <div class="flex justify-between items-center mb-10">
+                    <span class="text-xl font-bold text-indigo-600">Menu</span>
+                    <button id="closeBtn" class="text-3xl text-gray-500">&times;</button>
+                </div>
+
+                <div class="flex flex-col gap-8">
+                    <a href="#features" class="mobile-link text-xl font-semibold border-b border-gray-100 dark:border-gray-800 pb-2">Features</a>
+                    <a href="#pricing" class="mobile-link text-xl font-semibold border-b border-gray-100 dark:border-gray-800 pb-2">Pricing</a>
+                    <a href="#reviews" class="mobile-link text-xl font-semibold border-b border-gray-100 dark:border-gray-800 pb-2">Reviews</a>
+                </div>
+
+                <div class="mt-auto pt-10">
+                    <button class="w-full bg-indigo-600 text-white py-4 rounded-2xl font-bold shadow-lg">Get Started</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="overlay" class="fixed inset-0 bg-black opacity-0 pointer-events-none transition-opacity duration-300 z-[50] md:hidden"></div>
+
+    </nav>
+
+    <div id="videoModal" class="fixed inset-0 z-[10000] flex items-center justify-center opacity-0 pointer-events-none transition-all duration-300">
+        <div id="modalOverlay" class="absolute inset-0 bg-black/80 backdrop-blur-sm"></div>
+
+        <div class="relative w-full max-w-4xl mx-4 aspect-video bg-black rounded-3xl overflow-hidden shadow-2xl scale-90 transition-transform duration-300" id="modalContainer">
+            <button id="closeModal" class="absolute top-4 right-4 z-10 w-10 h-10 bg-black/50 hover:bg-black/70 text-white rounded-full flex items-center justify-center transition">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <iframe id="demoVideo" class="w-full h-full" src="" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+        </div>
+    </div>
+
+
+
+
+    <section class="pt-32 pb-20 px-6 text-center">
+        <h1 class="text-5xl md:text-7xl font-extrabold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-500">
+            Work Smarter, Not Harder <br> with AI Intelligence.
+        </h1>
+        <p class="text-lg opacity-70 max-w-2xl mx-auto mb-10">
+            NexTask automates your project workflows, predicts deadlines, and manages your team with powerful AI-driven analytics.
+        </p>
+        <div class="flex flex-col md:flex-row justify-center gap-4">
+            <button class="bg-indigo-600 text-white px-8 py-4 rounded-xl text-lg font-bold shadow-lg hover:shadow-indigo-500/30">Start 14-Day Free Trial</button>
+            <button id="watchDemoBtn" class="watch-demo-btn border border-gray-300 dark:border-gray-700 px-8 py-4 rounded-xl text-lg font-bold transition-all duration-300">
+                Watch Demo
+            </button>
+        </div>
+        <div class="mt-16 max-w-5xl mx-auto bento-card p-4 rounded-3xl">
+            <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=1200" alt="Dashboard Preview" class="rounded-2xl shadow-2xl">
+        </div>
+    </section>
+
+    <div class="py-10 bg-gray-50 dark:bg-slate-900 border-y border-gray-200 dark:border-gray-800">
+        <div class="marquee">
+            
+<div class="marquee-content font-bold text-xl uppercase tracking-widest text-gray-600 dark:text-gray-300 opacity-60 dark:opacity-80">                
+                
+                <span>Google</span> <span>Microsoft</span> <span>Meta</span> <span>Netflix</span> <span>Airbnb</span> <span>Spotify</span>
+                <span>Google</span> <span>Microsoft</span> <span>Meta</span> <span>Netflix</span> <span>Airbnb</span> <span>Spotify</span>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <section id="features" class="py-20 px-6 max-w-7xl mx-auto">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="md:col-span-2 bento-card p-10 rounded-3xl">
+                <i class="fa-solid fa-bolt text-4xl text-yellow-500 mb-6"></i>
+                <h3 class="text-2xl font-bold mb-4">Real-time Collaboration</h3>
+                <p class="opacity-70">Chat, tag, and edit documents with your team in real-time. No more lag, just pure productivity.</p>
+            </div>
+            <div class="bento-card p-10 rounded-3xl">
+                <i class="fa-solid fa-chart-line text-4xl text-indigo-500 mb-6"></i>
+                <h3 class="text-2xl font-bold mb-4">AI Analytics</h3>
+                <p class="opacity-70">Predict bottlenecks before they happen.</p>
+            </div>
+            <div class="bento-card p-10 rounded-3xl">
+                <i class="fa-solid fa-cloud text-4xl text-blue-500 mb-6"></i>
+                <h3 class="text-2xl font-bold mb-4">Cloud Storage</h3>
+                <p class="opacity-70">Secured with 256-bit encryption.</p>
+            </div>
+            <div class="md:col-span-2 bento-card p-10 rounded-3xl bg-indigo-600 text-white">
+                <h3 class="text-3xl font-bold mb-4">Ready to scale your business?</h3>
+                <p class="mb-6 opacity-80">Join 10,000+ teams using NexTask to deliver projects 40% faster.</p>
+                <button class="bg-white text-indigo-600 px-6 py-3 rounded-xl font-bold">Try for Free</button>
+            </div>
+        </div>
+    </section>
+
+
+
+
+
+
+
+    <!-- More Features Section Add -->
+    <section class="pb-20 px-6 max-w-7xl mx-auto">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl font-bold">More Powerful Capabilities</h2>
+            <p class="opacity-60 mt-2">Advanced tools to push your productivity to the limit.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="bento-card p-8 rounded-3xl group">
+                <div class="w-14 h-14 bg-orange-100 dark:bg-orange-900/30 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition">
+                    <i class="fa-solid fa-robot text-2xl text-orange-600"></i>
+                </div>
+                <h3 class="text-xl font-bold mb-3">Task Automation</h3>
+                <p class="opacity-70 text-sm leading-relaxed">
+                    Set up "If-This-Then-That" workflows to handle repetitive tasks. Let the AI move cards, assign members, and send reminders for you.
+                </p>
+            </div>
+
+            <div class="bento-card p-8 rounded-3xl group">
+                <div class="w-14 h-14 bg-emerald-100 dark:bg-emerald-900/30 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition">
+                    <i class="fa-solid fa-brain text-2xl text-emerald-600"></i>
+                </div>
+                <h3 class="text-xl font-bold mb-3">AI Prediction</h3>
+                <p class="opacity-70 text-sm leading-relaxed">
+                    Our engine analyzes past performance to predict potential delays. Get early warnings if a milestone is at risk of being missed.
+                </p>
+            </div>
+
+            <div class="bento-card p-8 rounded-3xl group">
+                <div class="w-14 h-14 bg-pink-100 dark:bg-pink-900/30 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition">
+                    <i class="fa-solid fa-users-viewfinder text-2xl text-pink-600"></i>
+                </div>
+                <h3 class="text-xl font-bold mb-3">Team Dashboard</h3>
+                <p class="opacity-70 text-sm leading-relaxed">
+                    A birds-eye view of everyone's workload. Balance tasks easily to prevent team burnout and ensure smooth project delivery.
+                </p>
+            </div>
+        </div>
+    </section>
+
+
+
+
+
+
+
+
+
+
+    <!-- Testimonials Section Add -->
+    <section id="reviews" class="py-20 px-6 bg-gray-50/50 dark:bg-slate-900/50">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold mb-4">Loved by Teams Everywhere</h2>
+                <p class="opacity-70">Check out what our global community has to say about NexTask.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bento-card p-8 rounded-3xl">
+                    <div class="flex text-yellow-500 mb-4">
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                    </div>
+                    <p class="italic mb-6 opacity-80">"This app saved our time significantly. The AI predictions are scary accurate!"</p>
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 bg-indigo-100 dark:bg-indigo-900 rounded-full flex items-center justify-center font-bold text-indigo-600">J</div>
+                        <div>
+                            <h4 class="font-bold">John Doe</h4>
+                            <p class="text-sm opacity-50">Product Manager</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bento-card p-8 rounded-3xl border-t-4 border-indigo-600">
+                    <div class="flex text-yellow-500 mb-4">
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                    </div>
+                    <p class="italic mb-6 opacity-80">"Best tool ever for remote teams. Collaboration has never been this smooth."</p>
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 bg-purple-100 dark:bg-purple-900 rounded-full flex items-center justify-center font-bold text-purple-600">S</div>
+                        <div>
+                            <h4 class="font-bold">Sarah Jenkins</h4>
+                            <p class="text-sm opacity-50">Lead Designer</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bento-card p-8 rounded-3xl">
+                    <div class="flex text-yellow-500 mb-4">
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                    </div>
+                    <p class="italic mb-6 opacity-80">"The dark mode is beautiful and the UI is so intuitive. My team loves it!"</p>
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center font-bold text-blue-600">M</div>
+                        <div>
+                            <h4 class="font-bold">Michael Chen</h4>
+                            <p class="text-sm opacity-50">Startup Founder</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+
+
+
+
+
+
+
+    <!-- FAQ Section Add -->
+    <section id="faq" class="py-20 px-6 max-w-4xl mx-auto">
+        <div class="text-center mb-16">
+            <h2 class="text-4xl font-bold mb-4">Frequently Asked Questions</h2>
+            <p class="opacity-70">Everything you need to know about NexTask.</p>
+        </div>
+
+        <div class="space-y-4">
+            <div class="bento-card rounded-2xl overflow-hidden">
+                <button class="faq-btn w-full px-8 py-6 text-left flex justify-between items-center hover:bg-gray-100/50 dark:hover:bg-slate-800/50 transition">
+                    <span class="text-lg font-bold">What is NexTask?</span>
+                    <i class="fa-solid fa-chevron-down transition-transform duration-300"></i>
+                </button>
+                <div class="faq-content max-h-0 overflow-hidden transition-all duration-300 bg-white/50 dark:bg-slate-900/50">
+                    <p class="px-8 py-6 opacity-70">
+                        NexTask is an AI-powered project management tool designed to help teams automate workflows, predict project deadlines, and collaborate in real-time with smarter insights.
+                    </p>
+                </div>
+            </div>
+
+            <div class="bento-card rounded-2xl overflow-hidden">
+                <button class="faq-btn w-full px-8 py-6 text-left flex justify-between items-center hover:bg-gray-100/50 dark:hover:bg-slate-800/50 transition">
+                    <span class="text-lg font-bold">Is it free?</span>
+                    <i class="fa-solid fa-chevron-down transition-transform duration-300"></i>
+                </button>
+                <div class="faq-content max-h-0 overflow-hidden transition-all duration-300 bg-white/50 dark:bg-slate-900/50">
+                    <p class="px-8 py-6 opacity-70">
+                        Yes! We have a "Free Forever" plan for small teams (up to 3 projects). For advanced AI features and unlimited projects, you can upgrade to our Pro or Enterprise plans.
+                    </p>
+                </div>
+            </div>
+
+            <div class="bento-card rounded-2xl overflow-hidden">
+                <button class="faq-btn w-full px-8 py-6 text-left flex justify-between items-center hover:bg-gray-100/50 dark:hover:bg-slate-800/50 transition">
+                    <span class="text-lg font-bold">Can I cancel anytime?</span>
+                    <i class="fa-solid fa-chevron-down transition-transform duration-300"></i>
+                </button>
+                <div class="faq-content max-h-0 overflow-hidden transition-all duration-300 bg-white/50 dark:bg-slate-900/50">
+                    <p class="px-8 py-6 opacity-70">
+                        Absolutely. There are no long-term contracts. You can cancel your subscription at any time with just one click from your dashboard settings.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+
+
+
+
+
+
+
+    <section id="pricing" class="py-20 px-6 text-center">
+        <h2 class="text-4xl font-bold mb-6">Simple, Transparent Pricing</h2>
+        <div class="flex justify-center items-center gap-4 mb-12">
+            <span>Monthly</span>
+            <label class="relative inline-flex items-center cursor-pointer">
+                <input type="checkbox" id="priceToggle" class="sr-only">
+                <div class="w-14 h-7 bg-gray-300 rounded-full dark:bg-gray-700"></div>
+                <div class="dot absolute left-1 top-1 bg-indigo-600 w-5 h-5 rounded-full transition transform"></div>
+            </label>
+            <span>Yearly <span class="text-green-500 text-sm font-bold">(Save 20%)</span></span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            <div class="bento-card p-8 rounded-3xl">
+                <h4 class="text-xl font-bold mb-4">Basic</h4>
+                <div class="text-4xl font-extrabold mb-6">$0<span class="text-lg opacity-50">/mo</span></div>
+                <ul class="text-left space-y-4 mb-8 opacity-70">
+                    <li><i class="fa-solid fa-check text-green-500 mr-2"></i> Up to 3 Projects</li>
+                    <li><i class="fa-solid fa-check text-green-500 mr-2"></i> Basic AI Features</li>
+                </ul>
+                <button class="w-full border border-indigo-600 py-3 rounded-xl font-bold">Get Started</button>
+            </div>
+            <div class="bento-card p-8 rounded-3xl border-2 border-indigo-600 relative">
+                <span class="absolute -top-4 left-1/2 -translate-x-1/2 bg-indigo-600 text-white px-4 py-1 rounded-full text-xs font-bold uppercase">Most Popular</span>
+                <h4 class="text-xl font-bold mb-4">Pro</h4>
+                <div class="text-4xl font-extrabold mb-6">$<span id="proPrice">29</span><span class="text-lg opacity-50">/mo</span></div>
+                <ul class="text-left space-y-4 mb-8">
+                    <li><i class="fa-solid fa-check text-green-500 mr-2"></i> Unlimited Projects</li>
+                    <li><i class="fa-solid fa-check text-green-500 mr-2"></i> Advanced AI Analytics</li>
+                    <li><i class="fa-solid fa-check text-green-500 mr-2"></i> Priority Support</li>
+                </ul>
+                <button class="w-full bg-indigo-600 text-white py-3 rounded-xl font-bold shadow-lg">Start Free Trial</button>
+            </div>
+            <div class="bento-card p-8 rounded-3xl">
+                <h4 class="text-xl font-bold mb-4">Enterprise</h4>
+                <div class="text-4xl font-extrabold mb-6">$99<span class="text-lg opacity-50">/mo</span></div>
+                <ul class="text-left space-y-4 mb-8 opacity-70">
+                    <li><i class="fa-solid fa-check text-green-500 mr-2"></i> Custom Security</li>
+                    <li><i class="fa-solid fa-check text-green-500 mr-2"></i> Dedicated Manager</li>
+                </ul>
+                <button class="w-full border border-indigo-600 py-3 rounded-xl font-bold">Contact Sales</button>
+            </div>
+        </div>
+    </section>
+
+
+
+    <!-- Footer -->
+    <footer class="py-10 px-6 text-center opacity-60 text-sm border-t border-gray-200 dark:border-gray-800">
+        <div class="flex flex-col md:flex-row justify-center items-center gap-1 md:gap-2">
+            <span>&copy; 2026 NexTask.ai - Premium SaaS Project</span>
+            <span class="hidden md:inline">|</span> <span>Developed by <span class="font-bold text-indigo-600">Niaj Morshed</span></span>
+        </div>
+    </footer>
+
+
+
+
+<!-- Signin/Signup -->
+<div id="authModal" class="fixed inset-0 z-[20000] hidden flex items-center justify-center p-4">
+    <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" id="authOverlay"></div>
+    <div class="relative bg-white dark:bg-slate-900 w-full max-w-md p-8 rounded-3xl shadow-2xl transition-all duration-300">
+        <div id="authContent">
+            <h2 id="authTitle" class="text-3xl font-bold mb-2 text-indigo-600">Login</h2>
+            <p id="authSubtitle" class="text-sm opacity-60 mb-6">Welcome back! Please enter your details.</p>
+
+            <form id="authForm" class="space-y-4">
+                <input type="email" id="authEmail" placeholder="Email Address" required class="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-800 bg-transparent outline-none focus:border-indigo-600 transition text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500">
+
+                <input type="password" id="authPassword" placeholder="Password" required class="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-800 bg-transparent outline-none focus:border-indigo-600 transition text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500">
+
+                <button type="submit" id="authSubmitBtn" class="w-full bg-indigo-600 text-white py-3 rounded-xl font-bold shadow-lg hover:bg-indigo-700 transition">Login</button>
+            </form>
+
+            <p class="mt-6 text-center text-sm">
+                <span id="authToggleText" class="opacity-60">Don't have an account?</span>
+                <button id="authToggleBtn" class="text-indigo-600 font-bold ml-1 hover:underline">Sign Up</button>
+            </p>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+    <!-- Fake Login / Dashboard Button -->
+    <div id="dashboardModal" class="fixed inset-0 z-[11000] hidden overflow-y-auto bg-slate-50 dark:bg-slate-950">
+        <nav class="sticky top-0 bg-white dark:bg-slate-900 border-b border-gray-200 dark:border-gray-800 px-6 py-4 flex justify-between items-center z-50">
+            <div class="flex items-center gap-4">
+                <div class="text-xl font-bold text-indigo-600">NexTask <span class="text-xs opacity-50 font-normal">Dashboard</span></div>
+            </div>
+            <button id="closeDashboard" class="bg-red-50 text-red-600 px-4 py-2 rounded-lg font-bold hover:bg-red-100 transition">
+                Exit Dashboard
+            </button>
+        </nav>
+
+        <div class="p-6 max-w-7xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+                <div class="bento-card p-6 rounded-2xl">
+                    <p class="text-sm opacity-60">Active Projects</p>
+                    <h2 class="text-3xl font-bold">12</h2>
+                </div>
+                <div class="bento-card p-6 rounded-2xl border-l-4 border-indigo-600">
+                    <p class="text-sm opacity-60">Tasks Completed</p>
+                    <h2 class="text-3xl font-bold">148</h2>
+                </div>
+                <div class="bento-card p-6 rounded-2xl">
+                    <p class="text-sm opacity-60">Team Velocity</p>
+                    <h2 class="text-3xl font-bold">94%</h2>
+                </div>
+                <div class="bento-card p-6 rounded-2xl">
+                    <p class="text-sm opacity-60">AI Efficiency</p>
+                    <h2 class="text-3xl font-bold">+22%</h2>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="md:col-span-2 bento-card p-6 rounded-2xl">
+                    <h3 class="font-bold mb-4">Current Projects</h3>
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between p-4 bg-gray-50 dark:bg-slate-800/50 rounded-xl">
+                            <span>🚀 Website Redesign</span>
+                            <span class="text-xs bg-green-100 text-green-700 px-2 py-1 rounded">In Progress</span>
+                        </div>
+                        <div class="flex items-center justify-between p-4 bg-gray-50 dark:bg-slate-800/50 rounded-xl">
+                            <span>📱 Mobile App API</span>
+                            <span class="text-xs bg-yellow-100 text-yellow-700 px-2 py-1 rounded">Pending Review</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="bento-card p-6 rounded-2xl">
+                    <h3 class="font-bold mb-4">AI Insights</h3>
+                    <div class="text-sm space-y-4">
+                        <p class="p-3 bg-indigo-50 dark:bg-indigo-900/30 rounded-lg text-indigo-600 dark:text-indigo-400">
+                            ✨ AI predicts "Website Redesign" will finish 2 days early.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <script>
+        // 1. Loader Logic (Speed perception)
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('loader').style.display = 'none';
+            }, 800);
+        });
+
+        
+     // Load saved theme
+const savedTheme = localStorage.getItem('theme');
+
+if (savedTheme === 'dark') {
+    document.documentElement.setAttribute('data-theme', 'dark');
+    document.getElementById('darkToggle').checked = true;
+} else {
+    document.documentElement.setAttribute('data-theme', 'light');
+}   
+        
+        
+        
+        
+        // 2. Dark Mode Toggle
+      const darkToggle = document.getElementById('darkToggle');
+
+darkToggle.addEventListener('change', () => {
+    if (darkToggle.checked) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        localStorage.setItem('theme', 'dark'); // SAVE
+    } else {
+        document.documentElement.setAttribute('data-theme', 'light');
+        localStorage.setItem('theme', 'light'); // SAVE
+    }
+});
+
+        // 3. Pricing Toggle Logic
+        const priceToggle = document.getElementById('priceToggle');
+        const proPrice = document.getElementById('proPrice');
+        const dot = document.querySelector('.dot');
+
+        priceToggle.addEventListener('change', () => {
+            if (priceToggle.checked) {
+                proPrice.textContent = '240'; // Yearly equivalent
+                dot.style.transform = 'translateX(28px)';
+            } else {
+                proPrice.textContent = '29';
+                dot.style.transform = 'translateX(0px)';
+            }
+        });
+
+        // 4. Smooth Scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+
+
+
+
+
+
+        // --- Sticky Navbar Scroll Effect ---
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('mainNavbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+
+
+
+
+
+        // --- Mobile Menu Drawer Effect --- 
+        const menuBtn = document.getElementById('menuBtn');
+        const closeBtn = document.getElementById('closeBtn');
+        const sideDrawer = document.getElementById('sideDrawer');
+        const overlay = document.getElementById('overlay');
+
+        menuBtn.addEventListener('click', () => {
+            sideDrawer.style.transform = 'translateX(0)';
+            overlay.classList.add('show');
+            document.body.style.overflow = 'hidden'; // Scroll bondho
+        });
+
+        function closeDrawer() {
+            sideDrawer.style.transform = 'translateX(100%)';
+            overlay.classList.remove('show');
+            document.body.style.overflow = 'auto'; // Scroll chalu
+        }
+
+        closeBtn.addEventListener('click', closeDrawer);
+        overlay.addEventListener('click', closeDrawer);
+
+        // Link-e click korle drawer jeno bondho hoy
+        document.querySelectorAll('.mobile-link').forEach(link => {
+            link.addEventListener('click', closeDrawer);
+        });
+
+
+
+
+
+
+
+
+
+        // --- Video Modal Logic ---
+        const watchDemoBtn = document.getElementById('watchDemoBtn');
+        const videoModal = document.getElementById('videoModal');
+        const closeModal = document.getElementById('closeModal');
+        const modalOverlay = document.getElementById('modalOverlay');
+        const demoVideo = document.getElementById('demoVideo');
+
+        // Video URL (Tumi chaile ekhane tomar YouTube ba onno video link dite paro)
+        // YouTube embed link-er format eivabe dite hoy
+        const videoSrc = "https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&mute=1";
+        watchDemoBtn.addEventListener('click', () => {
+            demoVideo.src = videoSrc; // Click korle video load hobe
+            videoModal.classList.add('active');
+            document.body.style.overflow = 'hidden'; // Background scroll bondho
+        });
+
+        function hideModal() {
+            videoModal.classList.remove('active');
+            demoVideo.src = ""; // Video bondho korar jonno source khali kora
+            document.body.style.overflow = 'auto'; // Scroll abar chalu
+        }
+
+        closeModal.addEventListener('click', hideModal);
+        modalOverlay.addEventListener('click', hideModal);
+
+
+
+
+
+
+
+
+
+        // FAQ Accordion Logic
+        document.querySelectorAll('.faq-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const content = btn.nextElementSibling;
+                const icon = btn.querySelector('i');
+
+                // Onno shob FAQ bondho korar jonno (Optional)
+                document.querySelectorAll('.faq-content').forEach(otherContent => {
+                    if (otherContent !== content) {
+                        otherContent.style.maxHeight = '0';
+                        otherContent.previousElementSibling.querySelector('i').style.transform = 'rotate(0deg)';
+                    }
+                });
+
+                // Current FAQ toggle kora
+                if (content.style.maxHeight === '0px' || content.style.maxHeight === '') {
+                    content.style.maxHeight = content.scrollHeight + 'px';
+                    icon.style.transform = 'rotate(180deg)';
+                } else {
+                    content.style.maxHeight = '0';
+                    icon.style.transform = 'rotate(0deg)';
+                }
+            });
+        });
+
+
+
+
+
+
+        /*
+
+                // --- Fake Dashboard Logic ---
+                const dashboardModal = document.getElementById('dashboardModal');
+                const closeDashboard = document.getElementById('closeDashboard');
+
+                // Prothome check korbo amader modal ar button element thik ache kina
+                if (dashboardModal && closeDashboard) {
+
+                    // Purono shob selector bad diye shudu button-er text check korbo
+                    document.querySelectorAll('button').forEach(btn => {
+                        const text = btn.innerText.trim();
+
+                        // Jodi button-e nicher kothagulo thake
+                        if (text.includes("Started") || text.includes("Trial") || text.includes("Free")) {
+
+                            // Mouse pointer change korbe (Confirm kora jate click hoy)
+                            btn.style.cursor = "pointer";
+
+                            btn.addEventListener('click', (e) => {
+                                e.preventDefault(); // Default link/action bondho kora
+                                console.log("Dashboard Opening..."); // Debugging er jonno
+                                dashboardModal.classList.remove('hidden');
+                                document.body.style.overflow = 'hidden';
+                            });
+                        }
+                    });
+
+                    closeDashboard.addEventListener('click', () => {
+                        dashboardModal.classList.add('hidden');
+                        document.body.style.overflow = 'auto';
+                    });
+                }
+
+
+
+        */
+
+
+        // --- Fake Auth & LocalStorage Logic ---
+        const authModal = document.getElementById('authModal');
+        const authForm = document.getElementById('authForm');
+        const authTitle = document.getElementById('authTitle');
+        const authSubmitBtn = document.getElementById('authSubmitBtn');
+        const authToggleBtn = document.getElementById('authToggleBtn');
+        const dashboardModal = document.getElementById('dashboardModal');
+
+        let isLoginMode = true;
+
+        // 1. Modal Toggle (Login vs Signup)
+        authToggleBtn.addEventListener('click', () => {
+            isLoginMode = !isLoginMode;
+            authTitle.innerText = isLoginMode ? "Login" : "Sign Up";
+            authSubmitBtn.innerText = isLoginMode ? "Login" : "Create Account";
+            document.getElementById('authSubtitle').innerText = isLoginMode ? "Welcome back!" : "Join us and start journey!";
+            document.getElementById('authToggleText').innerText = isLoginMode ? "Don't have an account?" : "Already have an account?";
+            authToggleBtn.innerText = isLoginMode ? "Sign Up" : "Login";
+        });
+
+        // 2. Auth Action (Submit Form) - Updated without Alert
+        authForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = document.getElementById('authEmail').value;
+            const password = document.getElementById('authPassword').value;
+
+            if (isLoginMode) {
+                // --- LOGIN LOGIC ---
+                const savedUser = JSON.parse(localStorage.getItem('user'));
+
+                if (savedUser && savedUser.email === email && savedUser.password === password) {
+                    // Ekhane alert() bad deya hoyeche, tai auto dashboard khulbe
+                    showDashboard();
+                } else {
+                    // Bhul password dile ekti chotto lal border hobe jate user bujhte pare
+                    document.getElementById('authPassword').classList.add('border-red-500');
+                    setTimeout(() => {
+                        document.getElementById('authPassword').classList.remove('border-red-500');
+                    }, 2000);
+                }
+            } else {
+                // --- SIGNUP LOGIC ---
+                localStorage.setItem('user', JSON.stringify({
+                    email,
+                    password
+                }));
+
+                // Signup hoye gele auto Login mode-e niye jaoa
+                isLoginMode = true;
+                authToggleBtn.click();
+
+                // Placeholder text change kore user-ke signal deya
+                authSubtitle.innerText = "Account Created! Now Login.";
+                authSubtitle.classList.add('text-green-500', 'font-bold');
+            }
+        });
+
+        // 3. Button Click logic - Jekono 'Get Started' click korle auth modal khulbe
+        document.querySelectorAll('button').forEach(btn => {
+            // FAQ button gulo ke skip korar jonno check
+            if (btn.classList.contains('faq-btn')) return;
+
+            const text = btn.innerText.toLowerCase();
+
+            // Sudhu niche deya text gulo thaklei auth modal khulbe
+            if (text.includes("started") || text.includes("trial") || (text.includes("free") && !text.includes("?"))) {
+                btn.addEventListener('click', () => {
+                    authModal.classList.remove('hidden');
+                    document.body.style.overflow = 'hidden';
+                });
+            }
+        });
+
+        function showDashboard() {
+            authModal.classList.add('hidden');
+            dashboardModal.classList.remove('hidden');
+        }
+
+        // Exit Dashboard
+        document.getElementById('closeDashboard').addEventListener('click', () => {
+            dashboardModal.classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        });
+
+        // Close Auth Modal on Overlay Click
+        document.getElementById('authOverlay').addEventListener('click', () => {
+            authModal.classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        });
+
+
+
+
+
+
+
+
+
+        // ---Micro Interaction: Button click ripple/ Card hover glow ---       
+        // --- 1. Card Glow Interaction ---
+        document.querySelectorAll('.bento-card').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                card.style.setProperty('--x', `${x}px`);
+                card.style.setProperty('--y', `${y}px`);
+            });
+        });
+
+        // --- 2. Button Ripple Interaction ---
+        document.querySelectorAll('button').forEach(button => {
+            // Button er overflow hidden thakte hobe ripple dekhar jonno
+            button.style.overflow = 'hidden';
+            button.style.position = 'relative';
+
+            button.addEventListener('click', function(e) {
+                const rect = this.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+
+                const ripple = document.createElement('span');
+                ripple.classList.add('ripple');
+                ripple.style.left = `${x}px`;
+                ripple.style.top = `${y}px`;
+
+                this.appendChild(ripple);
+
+                setTimeout(() => ripple.remove(), 600);
+            });
+        });
+
+        // --- 3. Scroll Reveal (Chotto bounce effect) ---
+        const observerOptions = {
+            threshold: 0.1
+        };
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('section').forEach(section => {
+            section.style.opacity = '0';
+            section.style.transform = 'translateY(20px)';
+            section.style.transition = 'all 0.6s ease-out';
+            observer.observe(section);
+        });
+    </script>
+</body>
+
+</html>
