@@ -5,7 +5,7 @@
 
 🚀 NexTask – AI-Powered SaaS Landing Page with Cinematic UI & Smooth Animations
 ------------------------------------------------------------------------------------
-Live Demo: [https://niaj-morshed.github.io/Paws-Pet-Shop/](https://niaj-morshed.github.io/NexTask-AI-Landing-Page/)
+Live Demo: https://niaj-morshed.github.io/NexTask-AI-Landing-Page/
 
 
 🚀 Overview:
