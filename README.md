@@ -15,7 +15,7 @@ automation platforms.Built with a focus on immersive UI/UX, it features a
 cinematic design, smooth scroll animations, and a fully responsive layout.
 
 
-✨ Key Features:
+✨ Key Features: 
 -----------------
 1. 🤖 Futuristic AI Interface
     * Modern dark-themed aesthetic specifically for SaaS products
